@@ -1,0 +1,7 @@
+{
+  "types": {
+    "develop": "Changes that are developing the project"
+  },
+  "max-len": 80,
+  "debug": true
+}

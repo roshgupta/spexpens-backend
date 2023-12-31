@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# .git/hooks/commit-msg $1
-echo 'hello'
+.git/hooks/commit-msg $1
+
