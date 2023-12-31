@@ -11,10 +11,12 @@
     "plugin:require-path-exists/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "plugins": ["json", "require-path-exists"],
   "rules": {
-    "json/*": ["error", "allowComments"]
+    "json/*": ["error", "allowComments"],
+    "linebreak-style": 0
   }
 }
