@@ -1,6 +1,7 @@
 {
   "types": {
-    "develop": "Changes that are developing the project"
+    "develop": "Changes that are developing the project",
+    "min": "Minor changes including typos and formatting changes"
   },
   "max-len": 80,
   "debug": true
