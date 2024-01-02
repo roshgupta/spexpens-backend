@@ -17,6 +17,9 @@
   "plugins": ["json", "require-path-exists"],
   "rules": {
     "json/*": ["error", "allowComments"],
-    "linebreak-style": 0
+    "linebreak-style": 0,
+    // Allow console.log statements
+    // REPLACE CONSOLE WITH LOGGER AND REMOVE THIS LINE
+    "no-console": "off"
   }
 }
