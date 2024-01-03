@@ -18,6 +18,7 @@
   "rules": {
     "json/*": ["error", "allowComments"],
     "linebreak-style": 0,
+    "import/extensions": [2, "ignorePackages"],
     // Allow console.log statements
     // REPLACE CONSOLE WITH LOGGER AND REMOVE THIS LINE
     "no-console": "off"
