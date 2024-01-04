@@ -2,7 +2,7 @@ import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
-import connectDB from './config/connectDB.js';
+import connectDB from './services/connectDB.js';
 import 'colors';
 
 const PORT = process.env.PORT || 5000;

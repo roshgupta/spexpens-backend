@@ -3,6 +3,13 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     name: {
       type: String,
       required: true,
@@ -10,13 +17,15 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required'],
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
       trim: true,
+      index: true,
     },
   },
   {
@@ -24,18 +33,17 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.isPasswordCorrect = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
 userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) {
-    next();
-    //! TODO: TEST IS USING THIS NEXT, IT Actually returns from here.
-  }
+  if (!this.isModified('password')) return next();
 
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
+  return next();
 });
 
-export default mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
+export default User;
