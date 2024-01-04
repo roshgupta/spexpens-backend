@@ -16,6 +16,7 @@
   },
   "plugins": ["json", "require-path-exists"],
   "rules": {
+    "func-names": "off",
     "json/*": ["error", "allowComments"],
     "linebreak-style": 0,
     "import/extensions": [2, "ignorePackages"],

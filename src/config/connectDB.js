@@ -20,11 +20,11 @@ db.on('error', () => {
   console.log('Error connecting to database'.red.bold);
 });
 
-db.once('open', () => {
+db.on('open', () => {
   console.log('Connected to Database'.green.underline);
 });
 
-db.once('disconnected', () => {
+db.on('disconnected', () => {
   console.log('Database disconnected'.blue);
 });
 export default connectDB;
