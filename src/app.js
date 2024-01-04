@@ -1,6 +1,7 @@
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
+import mongoSanitize from 'express-mongo-sanitize';
 import connectDB from './config/connectDB.js';
 import 'colors';
 
@@ -12,6 +13,7 @@ app.use(helmet());
 app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
+app.use(mongoSanitize());
 
 app.use('/', async (req, res) => {
   console.log('HIT ON BASE URL'.cyan);
