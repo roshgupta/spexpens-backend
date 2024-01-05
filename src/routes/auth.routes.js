@@ -3,9 +3,6 @@ import { loginUser, signupUser } from '../controllers/user.controllers.js';
 
 const router = express.Router({ mergeParams: true });
 
-// router.route('/test').get((req, res) => {
-//   res.json({ success: true });
-// })
 router
   .route('/register')
   .get((req, res) => {
