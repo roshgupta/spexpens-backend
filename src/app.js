@@ -1,9 +1,11 @@
 import express, { json, urlencoded } from 'express';
 import cors from 'cors';
+import passport from 'passport';
 import helmet from 'helmet';
 import mongoSanitize from 'express-mongo-sanitize';
 import connectDB from './services/connectDB.js';
 import authRoutes from './routes/auth.routes.js';
+import './services/auth/passport.js';
 import 'colors';
 
 const PORT = process.env.PORT || 5000;
@@ -20,8 +22,23 @@ app.use(
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(mongoSanitize());
+app.use(passport.initialize());
 
-app.use('/api/auth', authRoutes);
+app.use(
+  '/auth',
+  (req, res, next) => {
+    console.log('AUTH ROUTE GOT HIT'.cyan);
+    next();
+  },
+  authRoutes
+);
+
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message = 'something went wrong' } = err;
+  console.error(err);
+  return res.status(statusCode).json({ success: false, message });
+});
 
 app.listen(PORT, () => {
   console.log(

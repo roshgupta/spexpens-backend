@@ -11,21 +11,26 @@ export const loginUser = (req, res, next) => {
         message: info.message,
       });
     }
-    const { username } = user;
-    const token = jwt.sign({ username }, process.env.JWT_SECRET);
+    const { email } = user;
+    const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
     return res.status(200).json({ success: true, token, user });
+    // TODO: Remove password from the user which we are sending to user.
   })(req, res, next);
 };
 
 export const signupUser = async (req, res, next) => {
+  console.log('Register route got hit'.blue);
   const { email, password, name, username } = req.body;
   const emailExists = await User.findOne({ email });
   if (emailExists) {
-    next({ statusCode: 400, message: 'User with same email already exists' });
+    return next({
+      statusCode: 400,
+      message: 'User with same email already exists',
+    });
   }
   const usernameExists = await User.findOne({ username });
   if (usernameExists) {
-    next({
+    return next({
       statusCode: 400,
       message: 'User with same username already exists',
     });
@@ -40,8 +45,11 @@ export const signupUser = async (req, res, next) => {
 
   try {
     await newUser.save();
+    const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
+    // TODO: Remove password from the user which we are sending to user.
+    return res.status(200).json({ success: true, token, user: newUser });
   } catch (error) {
     console.log('Some error occured while saving the user'.red.bold);
-    next(error);
+    return next(error);
   }
 };

@@ -3,6 +3,6 @@
     "develop": "Changes that are developing the project",
     "min": "Minor changes including typos and formatting changes"
   },
-  "max-len": 80,
+  "max-len": 120,
   "debug": true
 }

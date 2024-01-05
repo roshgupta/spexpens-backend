@@ -4,21 +4,27 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../../models/user.models.js';
 
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
-    try {
-      const user = await User.findOne({ email });
-      if (!user) {
-        return done(null, false, { message: 'Invalid email or password' });
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+    async (email, password, done) => {
+      try {
+        const user = await User.findOne({ email });
+        if (!user) {
+          return done(null, false, { message: 'Invalid email or password' });
+        }
+        if (!user.isPasswordCorrect(password)) {
+          return done(null, false, { message: 'Invalid email or password' });
+        }
+        return done(null, user);
+      } catch (error) {
+        console.log('Unable to authenticate'.bgMagenta);
+        return done(error, false);
       }
-      if (!user.isPasswordCorrect(password)) {
-        return done(null, false, { message: 'Invalid email or password' });
-      }
-      return done(null, user);
-    } catch (error) {
-      console.log('Unable to authenticate'.bgMagenta);
-      return done(error, false);
     }
-  })
+  )
 );
 
 const JWToptions = {
