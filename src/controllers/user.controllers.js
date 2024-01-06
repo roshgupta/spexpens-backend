@@ -14,39 +14,40 @@ export const loginUser = (req, res, next) => {
     const { email } = user;
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
     return res.status(200).json({ success: true, token, user });
-    // TODO: Remove password from the user which we are sending to user.
   })(req, res, next);
 };
 
 export const signupUser = async (req, res, next) => {
-  console.log('Register route got hit'.blue);
-  const { email, password, name, username } = req.body;
-  const emailExists = await User.findOne({ email });
-  if (emailExists) {
-    return next({
-      statusCode: 400,
-      message: 'User with same email already exists',
-    });
-  }
-  const usernameExists = await User.findOne({ username });
-  if (usernameExists) {
-    return next({
-      statusCode: 400,
-      message: 'User with same username already exists',
-    });
-  }
-
-  const newUser = new User({
-    email,
-    username,
-    password,
-    name,
-  });
-
   try {
+    const { email, password, name, username } = req.body;
+    if (!username || !email || !password || !name) {
+      return next({
+        statusCode: 400,
+        message:
+          'Missing fields! Please enter username,email,password and name for registering',
+      });
+    }
+
+    const userExists = await User.findOne({
+      $or: [{ username }, { email }],
+    });
+
+    if (userExists) {
+      return next({
+        statusCode: 400,
+        message: 'User with same email or username already exists',
+      });
+    }
+
+    const newUser = new User({
+      email,
+      username,
+      password,
+      name,
+    });
+
     await newUser.save();
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-    // TODO: Remove password from the user which we are sending to user.
     return res.status(200).json({ success: true, token, user: newUser });
   } catch (error) {
     console.log('Some error occured while saving the user'.red.bold);

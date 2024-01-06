@@ -15,10 +15,12 @@ passport.use(
         if (!user) {
           return done(null, false, { message: 'Invalid email or password' });
         }
-        if (!user.isPasswordCorrect(password)) {
+        const isCorrectPassword = await user.isPasswordCorrect(password);
+        if (!isCorrectPassword) {
           return done(null, false, { message: 'Invalid email or password' });
         }
-        return done(null, user);
+        const { username, email: userEmail, name } = user;
+        return done(null, { username, email: userEmail, name });
       } catch (error) {
         console.log('Unable to authenticate'.bgMagenta);
         return done(error, false);
@@ -36,9 +38,12 @@ passport.use(
   new JWTStrategy(JWToptions, async (payload, done) => {
     try {
       const user = await User.findOne({ email: payload.email });
-      if (!user)
+      if (!user) {
         return done(null, false, { message: 'Invalid email or password' });
-      return done(null, user);
+      }
+
+      const { username, email: userEmail, name } = user;
+      return done(null, { username, email: userEmail, name });
     } catch (error) {
       console.log('Auth Failed JWTStrategy'.bgMagenta);
       return done(error, false);

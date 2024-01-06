@@ -23,15 +23,9 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(mongoSanitize());
 app.use(passport.initialize());
+// app.use(passport.session());
 
-app.use(
-  '/auth',
-  (req, res, next) => {
-    console.log('AUTH ROUTE GOT HIT'.cyan);
-    next();
-  },
-  authRoutes
-);
+app.use('/auth', authRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
