@@ -48,9 +48,18 @@ export const signupUser = async (req, res, next) => {
 
     await newUser.save();
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-    return res.status(200).json({ success: true, token, user: newUser });
+    return res.status(201).json({ success: true, token, user: newUser });
   } catch (error) {
     console.log('Some error occured while saving the user'.red.bold);
+    return next(error);
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    return res.status(200).json({ success: true, user: req.user });
+  } catch (error) {
+    console.log(`Some error occured in getUser: ${error}`);
     return next(error);
   }
 };

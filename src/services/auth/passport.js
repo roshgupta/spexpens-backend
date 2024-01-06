@@ -29,24 +29,25 @@ passport.use(
   )
 );
 
-const JWToptions = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: process.env.TOKEN_SECRET,
-};
-
 passport.use(
-  new JWTStrategy(JWToptions, async (payload, done) => {
-    try {
-      const user = await User.findOne({ email: payload.email });
-      if (!user) {
-        return done(null, false, { message: 'Invalid email or password' });
-      }
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.TOKEN_SECRET,
+    },
+    async (payload, done) => {
+      try {
+        const user = await User.findOne({ email: payload.email });
+        if (!user) {
+          return done(null, false, { message: 'Invalid email or password' });
+        }
 
-      const { username, email: userEmail, name } = user;
-      return done(null, { username, email: userEmail, name });
-    } catch (error) {
-      console.log('Auth Failed JWTStrategy'.bgMagenta);
-      return done(error, false);
+        const { username, email: userEmail, name } = user;
+        return done(null, { username, email: userEmail, name });
+      } catch (error) {
+        console.log('Auth Failed JWTStrategy'.bgMagenta);
+        return done(error, false);
+      }
     }
-  })
+  )
 );
