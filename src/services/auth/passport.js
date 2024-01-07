@@ -19,8 +19,8 @@ passport.use(
         if (!isCorrectPassword) {
           return done(null, false, { message: 'Invalid email or password' });
         }
-        const { username, email: userEmail, name } = user;
-        return done(null, { username, email: userEmail, name });
+        const { username, email: userEmail, name, _id: id } = user;
+        return done(null, { username, email: userEmail, name, id });
       } catch (error) {
         console.log('Unable to authenticate'.bgMagenta);
         return done(error, false);
@@ -42,8 +42,8 @@ passport.use(
           return done(null, false, { message: 'Invalid email or password' });
         }
 
-        const { username, email: userEmail, name } = user;
-        return done(null, { username, email: userEmail, name });
+        const { username, email: userEmail, name, _id: id } = user;
+        return done(null, { username, email: userEmail, name, id });
       } catch (error) {
         console.log('Auth Failed JWTStrategy'.bgMagenta);
         return done(error, false);

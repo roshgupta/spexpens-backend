@@ -6,6 +6,7 @@ import mongoSanitize from 'express-mongo-sanitize';
 import connectDB from './services/connectDB.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
+import expenseRoutes from './routes/expense.routes.js';
 import './services/auth/passport.js';
 import 'colors';
 
@@ -28,6 +29,7 @@ app.use(passport.initialize());
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/expense', expenseRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
