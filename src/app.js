@@ -9,6 +9,7 @@ import userRoutes from './routes/user.routes.js';
 import expenseRoutes from './routes/expense.routes.js';
 import './services/auth/passport.js';
 import 'colors';
+import isLoggedIn from './middlewares/auth.middlewares.js';
 
 const PORT = process.env.PORT || 5000;
 await connectDB();
@@ -28,8 +29,8 @@ app.use(passport.initialize());
 // app.use(passport.session());
 
 app.use('/auth', authRoutes);
-app.use('/user', userRoutes);
-app.use('/expense', expenseRoutes);
+app.use('/user', isLoggedIn, userRoutes);
+app.use('/expense', isLoggedIn, expenseRoutes);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {

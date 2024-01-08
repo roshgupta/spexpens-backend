@@ -21,7 +21,11 @@ export const createExpense = async (req, res, next) => {
     await newExpense.save();
     return res
       .status(201)
-      .json({ success: true, message: 'Expense created successfully' });
+      .json({
+        success: true,
+        message: 'Expense created successfully',
+        expense: newExpense,
+      });
   } catch (error) {
     console.log('Some error occured while creating the expense'.red);
     return next(error);
@@ -30,9 +34,9 @@ export const createExpense = async (req, res, next) => {
 
 export const deleteExpense = async (req, res, next) => {
   try {
-    const { expenseId } = req.body;
+    const { id } = req.params;
     const expense = await Expense.findOneAndDelete({
-      _id: expenseId,
+      _id: id,
       user: req.user.id,
     });
     if (!expense) {
@@ -55,9 +59,9 @@ export const deleteExpense = async (req, res, next) => {
 
 export const getExpenseByID = async (req, res, next) => {
   try {
-    const { expenseId } = req.body;
+    const { id } = req.params;
     const expense = await Expense.findOne({
-      _id: expenseId,
+      _id: id,
       user: req.user.id,
     });
     if (!expense) {

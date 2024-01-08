@@ -1,17 +1,15 @@
 import express from 'express';
-import isLoggedIn from '../middlewares/auth.middlewares.js';
 import {
   createExpense,
   deleteExpense,
+  getAllExpense,
   getExpenseByID,
 } from '../controllers/expense.controller.js';
 
 const router = express.Router({ mergeParams: true });
 
-router
-  .route('/')
-  .post(isLoggedIn, createExpense)
-  .delete(isLoggedIn, deleteExpense)
-  .get(isLoggedIn, getExpenseByID);
+router.route('/').post(createExpense).get(getAllExpense);
+
+router.route('/:id').get(getExpenseByID).delete(deleteExpense);
 
 export default router;
