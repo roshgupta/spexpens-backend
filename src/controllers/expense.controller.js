@@ -42,13 +42,11 @@ export const deleteExpense = async (req, res, next) => {
           'Expense not found, either it does not exists or does not belongs to you.',
       });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Expense deleted successfully',
-        deletedExpense: expense,
-      });
+    return res.status(200).json({
+      success: true,
+      message: 'Expense deleted successfully',
+      deletedExpense: expense,
+    });
   } catch (error) {
     console.log('Some error occured while deleting the expense'.red);
     return next(error);
@@ -69,13 +67,28 @@ export const getExpenseByID = async (req, res, next) => {
           'Expense not found, either it does not exists or does not belongs to you.',
       });
     }
-    return res
-      .status(200)
-      .json({
-        success: true,
-        message: 'Expense fetched successfully',
-        expense,
-      });
+    return res.status(200).json({
+      success: true,
+      message: 'Expense fetched successfully',
+      expense,
+    });
+  } catch (error) {
+    console.log('Some error occured while getting the expense'.red);
+    return next(error);
+  }
+};
+
+export const getAllExpense = async (req, res, next) => {
+  try {
+    const expenses = await Expense.find({
+      user: req.user.id,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Expense fetched successfully',
+      expenses,
+    });
   } catch (error) {
     console.log('Some error occured while getting the expense'.red);
     return next(error);
