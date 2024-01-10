@@ -8,7 +8,8 @@ import {
 
 const router = express.Router({ mergeParams: true });
 
-router.route('/').post(createExpense).get(getAllExpense);
+router.route('/').post(createExpense);
+router.route('/all').get(getAllExpense);
 
 router.route('/:id').get(getExpenseByID).delete(deleteExpense);
 

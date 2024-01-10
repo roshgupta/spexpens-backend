@@ -19,13 +19,11 @@ export const createExpense = async (req, res, next) => {
       user: req.user.id,
     });
     await newExpense.save();
-    return res
-      .status(201)
-      .json({
-        success: true,
-        message: 'Expense created successfully',
-        expense: newExpense,
-      });
+    return res.status(201).json({
+      success: true,
+      message: 'Expense created successfully',
+      expense: newExpense,
+    });
   } catch (error) {
     console.log('Some error occured while creating the expense'.red);
     return next(error);
@@ -95,6 +93,32 @@ export const getAllExpense = async (req, res, next) => {
     });
   } catch (error) {
     console.log('Some error occured while getting the expense'.red);
+    return next(error);
+  }
+};
+
+export const createManyExpenses = async (req, res, next) => {
+  try {
+    // TODO: To check if all expense are correctly recieved
+    // const { expenseArray } = req.body;
+    // expenseArray.forEach(({ name, amount, category }) => {
+    //   if (!name || !amount || !category) {
+    //     return next({
+    //       statusCode: 400,
+    //       message:
+    //         'Missing fields! Please enter name, amount and category of expense',
+    //     });
+    //   }
+
+    // });
+    // TODO: To add some logic to add an array of expense
+    return res.status(201).json({
+      success: true,
+      message: 'Expense created successfully',
+      expense: null,
+    });
+  } catch (error) {
+    console.log('Some error occured while creating the expense'.red);
     return next(error);
   }
 };
