@@ -8,3 +8,5 @@
 // * Check expense routes with all possiblity
 // * Make routes for fetching all expenses at once.
 // * Make route for creating an array of expenses at once.
+
+// TODO: Remove category as a different document and add it to user object and all the functionality around it.
