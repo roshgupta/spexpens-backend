@@ -22,6 +22,8 @@
     "import/extensions": [2, "ignorePackages"],
     // Allow console.log statements
     // REPLACE CONSOLE WITH LOGGER AND REMOVE THIS LINE
-    "no-console": "off"
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "no-underscore-dangle": "off"
   }
 }

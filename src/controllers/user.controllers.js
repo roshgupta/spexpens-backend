@@ -1,6 +1,8 @@
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.models.js';
+import Category from '../models/category.models.js';
+import defaultCategory from '../data/defaultCategory.js';
 
 export const loginUser = (req, res, next) => {
   passport.authenticate('local', async (err, user, info) => {
@@ -48,7 +50,19 @@ export const signupUser = async (req, res, next) => {
 
     await newUser.save();
     const token = jwt.sign({ email }, process.env.TOKEN_SECRET);
-    return res.status(201).json({ success: true, token, user: newUser });
+
+    // Creating default category at the time of user creation
+    const categoryList = defaultCategory.map((categoryItem) => ({ ...categoryItem, user: newUser._id }));
+    const catResult = await Category.insertMany(categoryList, {
+      ordered: true,
+    });
+
+    return res.status(201).json({
+      success: true,
+      token,
+      user: newUser,
+      category: catResult.result,
+    });
   } catch (error) {
     console.log('Some error occured while saving the user'.red.bold);
     return next(error);
